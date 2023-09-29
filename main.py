@@ -15,17 +15,16 @@ icon = pygame.image.load('./Graphics/Player.png')
 pygame.display.set_icon(icon)
 
 # Adding the background to the window
-
 bg_surf = pygame.image.load('./Graphics/bg.png').convert_alpha()
 bg_rect = bg_surf.get_rect(topleft = (0,0))
 movement = pygame.math.Vector2(bg_rect.topleft)
-bg_speed = 500
+bg_speed = 600
 
 def bg_animation(dt):
     global bg_rect, movement
     movement.x -= bg_speed * dt
-    if bg_rect.left <= -1400:
-        movement.x = 0
+    if bg_rect.left <= -960:
+        movement.x = -100
     bg_rect.x = movement.x
             
             
