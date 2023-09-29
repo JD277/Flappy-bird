@@ -27,7 +27,24 @@ def bg_animation(dt):
         movement.x = -100
     bg_rect.x = movement.x
             
-            
+# Player setup
+player_surf = pygame.image.load('./Graphics/Player.png').convert_alpha()
+player_rect = player_surf.get_rect(center = (150,300))
+player_mov = pygame.math.Vector2(player_rect.topleft)
+player_gravity = 1
+angle = 0
+
+def player_fall(dt):
+    global player_rect, player_gravity, player_surf
+    # Setting the player gravity increment
+    player_gravity += 10
+
+    # Animating the player gravity  with delta time
+    player_mov.y += player_gravity * dt
+    
+    # Applying the animations values to the sprite
+    player_rect.y = round(player_mov.y)
+
 # While condition
 running = True 
 
@@ -45,6 +62,10 @@ while running:
         # Event for closing the game window
         if event.type == pygame.QUIT:
             running = False
+        # Event for fly 
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            player_gravity = -200
+
 
     # Filling the window with color
     screen.fill('#0070ff')
@@ -54,6 +75,11 @@ while running:
 
     # Animating the background
     bg_animation(dt)
+
+    # Drawing the player
+    screen.blit(player_surf,player_rect)
+    player_fall(dt)
+
     #   Updating the game
     pygame.display.update()
 
