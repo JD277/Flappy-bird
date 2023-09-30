@@ -1,7 +1,7 @@
 # Imorting pygame
 import pygame
 import time
-
+import random
 pygame.init()
 
 # Creating the window 
@@ -32,7 +32,7 @@ player_surf = pygame.image.load('./Graphics/Player.png').convert_alpha()
 player_rect = player_surf.get_rect(center = (150,300))
 player_mov = pygame.math.Vector2(player_rect.topleft)
 player_gravity = 1
-angle = 0
+
 
 def player_fall(dt):
     global player_rect, player_gravity, player_surf
@@ -45,6 +45,26 @@ def player_fall(dt):
     # Applying the animations values to the sprite
     player_rect.y = round(player_mov.y)
 
+# Enemies setup
+enemy_type = random.randint(0,1)
+if enemy_type == 1:
+    obstacle = './Graphics/1.png'
+    y_pos = 500
+    enemy_surf = pygame.image.load(obstacle)
+else:
+    obstacle = './Graphics/0.png'
+    y_pos = 100
+    enemy_surf = pygame.image.load(obstacle)
+    enemy_surf = pygame.transform.rotozoom(enemy_surf,90,1)
+    
+
+enemy_surf = pygame.image.load(obstacle)
+enemy_rect = enemy_surf.get_rect(midleft = (400,y_pos))
+enemy_movement = pygame.math.Vector2(enemy_rect.topleft)
+enemy_speed = 400
+
+enemy_event = pygame.USEREVENT + 1
+pygame.time.set_timer(enemy_event, 900)
 # While condition
 running = True 
 
@@ -65,6 +85,8 @@ while running:
         # Event for fly 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             player_gravity = -200
+        if event.type == enemy_event:
+            pass
 
 
     # Filling the window with color
@@ -78,8 +100,11 @@ while running:
 
     # Drawing the player
     screen.blit(player_surf,player_rect)
-    player_fall(dt)
+    #player_fall(dt)
 
+    screen.blit(enemy_surf,enemy_rect)
+    enemy_movement.x -= enemy_speed * dt
+    enemy_rect.x = enemy_movement.x
     #   Updating the game
     pygame.display.update()
 
