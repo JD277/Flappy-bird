@@ -106,6 +106,11 @@ game_active = False
 # Creating the clocks
 previus_time = time.time()
 clock = pygame.time.Clock()
+
+# Adding the bg sound
+bg_music = pygame.mixer.Sound('./Sounds/bg.wav')
+bg_music.set_volume(0.3)
+bg_music.play(loops=-1)
 # While loop
 while running:
     clock.tick(60)
